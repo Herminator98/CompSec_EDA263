@@ -50,13 +50,13 @@ int main(int argc, char *argv[]) {
 			important);
 
 		printf("login: ");
-		fflush(NULL); 				/* Flush all  output buffers */
-		__fpurge(stdin); 			/* Purge any data in stdin buffer */
-		fgets(user, LENGTH, stdin); /* gets() is vulnerable to buffer overflow 
-									attacks. Changed to fgets() */
+		fflush(NULL); 			/* Flush all  output buffers */
+		__fpurge(stdin); 		/* Purge any data in stdin buffer */
+		fgets(user, LENGTH, stdin); 	/* gets() is vulnerable to buffer overflow 
+						attacks. Changed to fgets() */
 		
-		strtok(user, "\n");			/*removing newline created by fgets(), 
-									appending null-terminated instead. */
+		strtok(user, "\n");		/*removing newline created by fgets(), 
+						appending null-terminated instead. */
 
 		/* check to see if important variable is intact after input of login name - do not remove */
 		printf("Value of variable 'important' after input of login name: %*.*s\n",
@@ -69,16 +69,20 @@ int main(int argc, char *argv[]) {
 			/* You have to encrypt user_pass for this to work */
 			/* Don't forget to include the salt */
 			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypring pw
-			bzero(user_pass, LENGTH);							//clearing ?
+			bzero(user_pass, LENGTH);	//clearing ?
 
-			if(passwddata->pwfailed >= 3){ 	//if wrong password over 3 times, 
-											//you can't log in, admin must lower.
+
+		//if wrong password over 3 times, you can't log in,
+		// admin must lower the number manually
+			if(passwddata->pwfailed >= 3){  
+
 				printf("The account is locked!\n");
 				return(-1);
 			} else if(!strcmp(c_pass, passwddata->passwd)) {
 				//If the password match, try to set UID
 				if(setuid(passwddata->uid) == 0) {
-					//If UID get set, print some, resest pwfaild count, launch new bash
+				//If UID get set, print some, resest pwfaild count, 
+				//launch new bash
 					printf(" You're in !\n");
 					printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
 					passwddata->pwfailed = 0;
