@@ -19,7 +19,8 @@
 #define LENGTH 16
 
 void sighandler() {
-
+	
+	printf("  <-- signal caught\n");	
 	/* add signalhandling routines here */
 	/* see 'man 2 signal' */
 }
@@ -38,20 +39,21 @@ int main(int argc, char *argv[]) {
 	char *user_pass;
 	
 	char *args[2];
-	args[0] = "/bin/bash";
-	args[1] = NULL;
-	sighandler();
+		args[0] = "/bin/bash";
+		args[1] = NULL;
 
 	while (TRUE) {
 		/* check what important variable contains - do not remove, part of buffer overflow test */
+		signal(SIGINT, sighandler);
+		signal(SIGQUIT, sighandler);
+		signal(SIGTSTP, sighandler);
 		printf("Value of variable 'important' before input of login name: %s\n",
-				important);
+		important);
 
 		printf("login: ");
 		fflush(NULL); /* Flush all  output buffers */
 		__fpurge(stdin); /* Purge any data in stdin buffer */
-
-		fgets(user, 16, stdin); /* gets() is vulnerable to buffer */
+		fgets(user, LENGTH, stdin); /* gets() is vulnerable to buffer */
 		//	exit(0); /*  overflow attacks.  */
 		
 		strtok(user, "\n");
