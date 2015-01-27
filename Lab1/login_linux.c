@@ -5,12 +5,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-//#include <stdio_ext.h>
+#include <stdio_ext.h>
 #include <string.h>
 #include <signal.h>
 #include <pwd.h>
 #include <sys/types.h>
-#include <unistd.h>
+#include <crypt.h>
 /* Uncomment next line in step 2 */
 #include "pwent.h"
 
