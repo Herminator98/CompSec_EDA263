@@ -11,7 +11,7 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <crypt.h>
-/* Uncomment next line in step 2 */
+
 #include "pwent.h"
 
 #define TRUE 1
@@ -19,47 +19,48 @@
 #define LENGTH 16
 
 void sighandler() {
-	
+	//"Signal handling", not sure what else to do here
 	printf("  <-- signal caught\n");	
-	/* add signalhandling routines here */
-	/* see 'man 2 signal' */
 }
 
 int main(int argc, char *argv[]) {
 
-	mypwent *passwddata; /* this has to be redefined in step 2 */
-	/* see pwent.h */
+	mypwent *passwddata; 	//(this has to be redefined in step 2) - done
 
 	char important[LENGTH] = "***IMPORTANT***";
-	//char *const a = {"-c", "env", 0};
-	//char *const b = "PATH=/bin";
 	char user[LENGTH];
-	char *c_pass; //you might want to use this variable later...
+	char *c_pass; 			//crypted password
 	char prompt[] = "password: ";
 	char *user_pass;
 	
-	char *args[2];
-		args[0] = "/bin/bash";
-		args[1] = NULL;
+	//Init of array used for execve()
+	char *exargs[2];
+	exargs[0] = "/bin/bash";
+	exargs[1] = NULL;
 
 	while (TRUE) {
-		/* check what important variable contains - do not remove, part of buffer overflow test */
+
+		//handling signal, sending them to sighandler();
 		signal(SIGINT, sighandler);
 		signal(SIGQUIT, sighandler);
 		signal(SIGTSTP, sighandler);
+
+		/* check what important variable contains - do not remove, part of buffer overflow test */
 		printf("Value of variable 'important' before input of login name: %s\n",
-		important);
+			important);
 
 		printf("login: ");
-		fflush(NULL); /* Flush all  output buffers */
-		__fpurge(stdin); /* Purge any data in stdin buffer */
-		fgets(user, LENGTH, stdin); /* gets() is vulnerable to buffer */
-		//	exit(0); /*  overflow attacks.  */
+		fflush(NULL); 				/* Flush all  output buffers */
+		__fpurge(stdin); 			/* Purge any data in stdin buffer */
+		fgets(user, LENGTH, stdin); /* gets() is vulnerable to buffer overflow 
+									attacks. Changed to fgets() */
 		
-		strtok(user, "\n");
+		strtok(user, "\n");			/*removing newline created by fgets(), 
+									appending null-terminated instead. */
+
 		/* check to see if important variable is intact after input of login name - do not remove */
 		printf("Value of variable 'important' after input of login name: %*.*s\n",
-				LENGTH - 1, LENGTH - 1, important);
+			LENGTH - 1, LENGTH - 1, important);
 
 		user_pass = getpass(prompt);
 		passwddata = mygetpwnam(user);
@@ -67,39 +68,43 @@ int main(int argc, char *argv[]) {
 		if (passwddata != NULL) {
 			/* You have to encrypt user_pass for this to work */
 			/* Don't forget to include the salt */
-			c_pass = crypt(user_pass, passwddata->passwd_salt);
-			bzero(user_pass, LENGTH);
-			if(passwddata->pwfailed >= 3){
+			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypring pw
+			bzero(user_pass, LENGTH);							//clearing ?
+
+			if(passwddata->pwfailed >= 3){ 	//if wrong password over 3 times, 
+											//you can't log in, admin must lower.
 				printf("The account is locked!\n");
 				return(-1);
 			} else if(!strcmp(c_pass, passwddata->passwd)) {
-				
-				printf(" You're in !\n");
-				printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
-				passwddata->pwfailed = 0;
+				//If the password match, try to set UID
 				if(setuid(passwddata->uid) == 0) {
+					//If UID get set, print some, resest pwfaild count, launch new bash
+					printf(" You're in !\n");
+					printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
+					passwddata->pwfailed = 0;
 					mysetpwent(user, passwddata);
-					execve(args[0], args, NULL);
+					execve(exargs[0], exargs, NULL);
 				} else {
-					printf("setuid failed");		
+					printf("setuid failed");
+					return(-1);		
 				}
-				return(1);
+				return(-1);
 				
 				if (++passwddata->pwage > 10) {
+					//Just a reminder, no need to exit or quit.
 					printf("Your password is old, you should change it!\n");
 				}
-				/*  check UID, see setuid(2) */
-				/*  start a shell, use execve(2) */
 
 			} else {
+				//If the wrong pw is entered, inc pwfailed and print message
 				passwddata->pwfailed++;
 				printf("Login Incorrect \n");
 			}
+			//Set the different counters in the struct.
 			mysetpwent(user, passwddata);
 		} else {
 			printf("Login Incorrect \n");
-		}
-		
+		}	
 	}
 	return 0;
 }
