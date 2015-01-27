@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
 				printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
 				passwddata->pwfailed = 0;
 				if(setuid(passwddata->uid) == 0) {
+					mysetpwent(user, passwddata);
 					execve(args[0], args, NULL);
 				} else {
 					printf("setuid failed");		
