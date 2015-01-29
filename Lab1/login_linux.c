@@ -17,6 +17,9 @@
 #define TRUE 1
 #define FALSE 0
 #define LENGTH 16
+#define MAX_LOGIN_ATTEMPTS 3
+#define SETUID_SUCCESS 0
+#define OLD_PW 10
 
 void sighandler() {
 	//"Signal handling", not sure what else to do here
@@ -74,13 +77,13 @@ int main(int argc, char *argv[]) {
 
 		//if wrong password over 3 times, you can't log in,
 		// admin must lower the number manually
-			if(passwddata->pwfailed >= 3){  
+			if(passwddata->pwfailed >= MAX_LOGIN_ATTEMPTS ){  
 
 				printf("The account is locked!\n");
 				return(-1);
 			} else if(!strcmp(c_pass, passwddata->passwd)) {
 				//If the password match, try to set UID
-				if(setuid(passwddata->uid) == 0) {
+				if(setuid(passwddata->uid) == SETUID_SUCCESS) {
 				//If UID get set, print some, resest pwfaild count, 
 				//launch new bash
 					printf(" You're in !\n");
@@ -92,9 +95,8 @@ int main(int argc, char *argv[]) {
 					printf("setuid failed");
 					return(-1);		
 				}
-				return(-1);
-				
-				if (++passwddata->pwage > 10) {
+
+				if (++passwddata->pwage > OLD_PW ) {
 					//Just a reminder, no need to exit or quit.
 					printf("Your password is old, you should change it!\n");
 				}
