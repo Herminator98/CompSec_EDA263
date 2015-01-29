@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 
 			//if wrong password over 3 times, you can't log in,
 			// admin must lower the number manually
-			else if(!strcmp(c_pass, passwddata->passwd)) {
+			if(!strcmp(c_pass, passwddata->passwd)) {
 				//If the password match, try to set UID
 				if(setuid(passwddata->uid) == SETUID_SUCCESS) {
 					//If UID get set, print some, resest pwfaild count, 
