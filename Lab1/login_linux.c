@@ -78,7 +78,6 @@ int main(int argc, char *argv[]) {
 		//if wrong password over 3 times, you can't log in,
 		// admin must lower the number manually
 			if(passwddata->pwfailed >= MAX_LOGIN_ATTEMPTS ){  
-
 				printf("The account is locked!\n");
 				return(-1);
 			} else if(!strcmp(c_pass, passwddata->passwd)) {
@@ -86,6 +85,10 @@ int main(int argc, char *argv[]) {
 				if(setuid(passwddata->uid) == SETUID_SUCCESS) {
 				//If UID get set, print some, resest pwfaild count, 
 				//launch new bash
+					if (++passwddata->pwage > OLD_PW ) {
+						//Just a reminder, no need to exit or quit.
+						printf("Your password is old, you should change it!\n");
+					}
 					printf(" You're in !\n");
 					printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
 					passwddata->pwfailed = 0;
@@ -94,11 +97,6 @@ int main(int argc, char *argv[]) {
 				} else {
 					printf("setuid failed");
 					return(-1);		
-				}
-
-				if (++passwddata->pwage > OLD_PW ) {
-					//Just a reminder, no need to exit or quit.
-					printf("Your password is old, you should change it!\n");
 				}
 
 			} else {
