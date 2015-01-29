@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 		signal(SIGQUIT, sighandler);
 		signal(SIGTSTP, sighandler);
 
-		/* check what important variable contains - do not remove, part of buffer overflow test */
+		/	* check what important variable contains - do not remove, part of buffer overflow test */
 		printf("Value of variable 'important' before input of login name: %s\n",
 			important);
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
 			/* You have to encrypt user_pass for this to work */
 			/* Don't forget to include the salt */
 			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypring pw
-			bzero(user_pass, LENGTH);	//clearing ?
+			bzero(user_pass, LENGTH);	//clearing the user_pass variable
 
 
 		//if wrong password over 3 times, you can't log in,
