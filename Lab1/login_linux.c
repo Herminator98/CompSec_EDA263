@@ -66,16 +66,15 @@ int main(int argc, char *argv[]) {
 			LENGTH - 1, LENGTH - 1, important);
 
 		passwddata = mygetpwnam(user);
-		if(passwddata->pwfailed >= MAX_LOGIN_ATTEMPTS ){  
-				printf("The account is locked!\n");
-				return(-1);
-		} 
-
-		user_pass = getpass(prompt);
-
+		
 		if (passwddata != NULL) {
 			/* You have to encrypt user_pass for this to work */
 			/* Don't forget to include the salt */
+			if(passwddata->pwfailed >= MAX_LOGIN_ATTEMPTS ){  
+				printf("The account is locked!\n");
+				return(-1);
+			} 
+			user_pass = getpass(prompt);
 			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypring pw
 			bzero(user_pass, LENGTH);	//clearing the user_pass variable
 
