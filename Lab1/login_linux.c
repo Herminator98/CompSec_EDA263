@@ -11,7 +11,7 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <crypt.h>
-
+#include <errno.h>
 #include "pwent.h"
 
 #define TRUE 1
@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
 	exargs[0] = "/bin/bash";
 	exargs[1] = NULL;
 
+
 	while (TRUE) {
 
 		//handling signal, sending them to sighandler();
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]) {
 		signal(SIGQUIT, sighandler);
 		signal(SIGTSTP, sighandler);
 
-		/	* check what important variable contains - do not remove, part of buffer overflow test */
+		/* check what important variable contains - do not remove, part of buffer overflow test */
 		printf("Value of variable 'important' before input of login name: %s\n",
 			important);
 
@@ -66,18 +67,20 @@ int main(int argc, char *argv[]) {
 			LENGTH - 1, LENGTH - 1, important);
 
 		passwddata = mygetpwnam(user);
+		user_pass = getpass(prompt);
 		
 		if (passwddata != NULL) {
 			/* You have to encrypt user_pass for this to work */
 			/* Don't forget to include the salt */
 			if(passwddata->pwfailed >= MAX_LOGIN_ATTEMPTS ){  
 				printf("The account is locked!\n");
-				return(-1);
+				exit(EACCES);
 			} 
-			user_pass = getpass(prompt);
-			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypring pw
+			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypting pw
 			bzero(user_pass, LENGTH);	//clearing the user_pass variable
-
+			if(NULL == c_pass){		//if c_pass is null then crypt() failed
+				exit(ENODATA);
+			}
 			//if wrong password over 3 times, you can't log in,
 			// admin must lower the number manually
 			if(!strcmp(c_pass, passwddata->passwd)) {
@@ -93,10 +96,12 @@ int main(int argc, char *argv[]) {
 					printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
 					passwddata->pwfailed = 0;
 					mysetpwent(user, passwddata);
-					execve(exargs[0], exargs, NULL);
+					if(execve(exargs[0], exargs, NULL)){
+						exit(errno);
+					}
 				} else {
 					printf("setuid failed");
-					return(-1);		
+					exit(EACCES);	//access denied	
 				}
 			} else {
 				//If the wrong pw is entered, inc pwfailed and print message
