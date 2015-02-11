@@ -41,6 +41,10 @@ int main(int argc, char *argv[]) {
 	exargs[0] = "/bin/bash";
 	exargs[1] = NULL;
 
+	char *ex_env_args[] = { "HOME=/",
+							"PATH=/bin:/usr/bin",
+							0};
+
 
 	while (TRUE) {
 
@@ -96,7 +100,7 @@ int main(int argc, char *argv[]) {
 					printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
 					passwddata->pwfailed = 0;
 					mysetpwent(user, passwddata);
-					if(execve(exargs[0], exargs, NULL)){
+					if(execve(exargs[0], exargs, ex_env_args)){
 						exit(errno);
 					}
 				} else {
