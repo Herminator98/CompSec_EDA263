@@ -11,7 +11,7 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <crypt.h>
-
+#include <errno.h>
 #include "pwent.h"
 
 #define TRUE 1
@@ -41,6 +41,11 @@ int main(int argc, char *argv[]) {
 	exargs[0] = "/bin/bash";
 	exargs[1] = NULL;
 
+	char *ex_env_args[] = { "HOME=/",
+							"PATH=/bin:/usr/bin",
+							0};
+
+
 	while (TRUE) {
 
 		//handling signal, sending them to sighandler();
@@ -48,7 +53,7 @@ int main(int argc, char *argv[]) {
 		signal(SIGQUIT, sighandler);
 		signal(SIGTSTP, sighandler);
 
-		/	* check what important variable contains - do not remove, part of buffer overflow test */
+		/* check what important variable contains - do not remove, part of buffer overflow test */
 		printf("Value of variable 'important' before input of login name: %s\n",
 			important);
 
@@ -65,26 +70,28 @@ int main(int argc, char *argv[]) {
 		printf("Value of variable 'important' after input of login name: %*.*s\n",
 			LENGTH - 1, LENGTH - 1, important);
 
-		user_pass = getpass(prompt);
 		passwddata = mygetpwnam(user);
-
+		user_pass = getpass(prompt);
+		
 		if (passwddata != NULL) {
 			/* You have to encrypt user_pass for this to work */
 			/* Don't forget to include the salt */
-			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypring pw
-			bzero(user_pass, LENGTH);	//clearing the user_pass variable
-
-
-		//if wrong password over 3 times, you can't log in,
-		// admin must lower the number manually
 			if(passwddata->pwfailed >= MAX_LOGIN_ATTEMPTS ){  
 				printf("The account is locked!\n");
-				return(-1);
-			} else if(!strcmp(c_pass, passwddata->passwd)) {
+				exit(EACCES);
+			} 
+			c_pass = crypt(user_pass, passwddata->passwd_salt); //encrypting pw
+			bzero(user_pass, LENGTH);	//clearing the user_pass variable
+			if(NULL == c_pass){		//if c_pass is null then crypt() failed
+				exit(ENODATA);
+			}
+			//if wrong password over 3 times, you can't log in,
+			// admin must lower the number manually
+			if(!strcmp(c_pass, passwddata->passwd)) {
 				//If the password match, try to set UID
 				if(setuid(passwddata->uid) == SETUID_SUCCESS) {
-				//If UID get set, print some, resest pwfaild count, 
-				//launch new bash
+					//If UID get set, print some, resest pwfaild count, 
+					//launch new bash
 					if (++passwddata->pwage > OLD_PW ) {
 						//Just a reminder, no need to exit or quit.
 						printf("Your password is old, you should change it!\n");
@@ -93,19 +100,19 @@ int main(int argc, char *argv[]) {
 					printf("%d failed login attempts since last login.\n", passwddata->pwfailed);
 					passwddata->pwfailed = 0;
 					mysetpwent(user, passwddata);
-					execve(exargs[0], exargs, NULL);
+					if(execve(exargs[0], exargs, ex_env_args)){
+						exit(errno);
+					}
 				} else {
 					printf("setuid failed");
-					return(-1);		
+					exit(EACCES);	//access denied	
 				}
-
 			} else {
 				//If the wrong pw is entered, inc pwfailed and print message
 				passwddata->pwfailed++;
+				mysetpwent(user, passwddata);
 				printf("Login Incorrect \n");
 			}
-			//Set the different counters in the struct.
-			mysetpwent(user, passwddata);
 		} else {
 			printf("Login Incorrect \n");
 		}	
