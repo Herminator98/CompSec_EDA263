@@ -1,11 +1,11 @@
-1. What are your names, lab-group, and civic registration numbers?
+ï»¿1. What are your names, lab-group, and civic registration numbers?
 2. What is the fingerprint of your key?
 3. What mail client did you use for the lab?
 4. Will you use gpg in the future? Please specify your reasons.
-5. What is the purpose of signing in terms of the “CIA” (Confidentiality, Integrity,
+5. What is the purpose of signing in terms of the "CIA" (Confidentiality, Integrity,
 Availability)? Motivate your answer. Explain how signing works in PGP? Why is a
 hash function used?
-6. What is the purpose of encryption in terms of the “CIA”? Motivate your answer.
+6. What is the purpose of encryption in terms of the "CIA"? Motivate your answer.
 Explain how encryption and decryption works in PGP? Make sure that your answer
 includes how PGP combines the best features of both conventional and public key
 cryptography.
@@ -33,17 +33,17 @@ You	------>	Blake ---->	Dharma	--->	Elena
 	 \		q/f		 /
 	  ----> Chloe  -/
 
-Figure 3: Example of a web of trust. ’A -> B’ indicates that A has signed B’s key.
+Figure 3: Example of a web of trust. 'A -> B' indicates that A has signed B's key.
 
 For example, consider Alice. As you have personally signed her key, it is fully
 trusted (i.e. you know that the person Alice owns this key). Furthermore, you
-also know that Alice is quite messy and has a history of signing other people’s
+also know that Alice is quite messy and has a history of signing other people's
 keys without the proper validation. For that reason, you have assigned the owner
 trust of Alice to marginal. The same goes for Blake. However, Chloe is a new
 acquaintance and you do not know whether she is careful when validating keys.
-Hence, you put “Don’t know” (q) for owner trust of Chloe. Depending on your
+Hence, you put "Don't know" (q) for owner trust of Chloe. Depending on your
 version of GPG, this may be listed as trust: undefined, validity: full. You have not
-entered any owner trust for either Dharma or Elena, hence the – in the figure (may
+entered any owner trust for either Dharma or Elena, hence the - in the figure (may
 be marked as unknown in gpg).
 (a) You know Dharma, and you now enter that you trust her fully. If you list
 the key for Dharma, it would now show: f/m (trust: full, validity: marginal).
