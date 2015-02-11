@@ -24,14 +24,14 @@ the key validity (calculated trust value). To be succinct, we have marked these
 entries as -/-, where the left entry stands for owner trust and the right entry key
 validity.
 
-			m/f
-	  _--->	Alice --\
-	 /			 	 \->
-	/		m/f			-/m				-/-
-You	------>	Blake ---->	Dharma	--->	Elena
-	\				  ->
-	 \		q/f		 /
-	  ----> Chloe  -/
+            m/f
+      _---> Alice -\
+     /              \
+    /       m/f      \> -/m             -/-
+You ------> Blake ----> Dharma  --->    Elena
+    \                 ->
+     \      q/f      /
+      ----> Chloe  -/
 
 Figure 3: Example of a web of trust. 'A -> B' indicates that A has signed B's key.
 
