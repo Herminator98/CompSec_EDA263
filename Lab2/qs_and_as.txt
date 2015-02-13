@@ -17,9 +17,9 @@
     For special use, secret company information or other sensitive information
     in text form. 
 
-5. What is the purpose of signing in terms of the "CIA" (Confidentiality, Integrity,
-Availability)? Motivate your answer. Explain how signing works in PGP? Why is a
-hash function used?
+5. What is the purpose of signing in terms of the "CIA" (Confidentiality, 
+Integrity, Availability)? Motivate your answer. Explain how signing works in
+PGP? Why is a hash function used?
 
     (A) Integrity. A digital signature provides authenticity to a message,
         to assure the recipient that the message is not tampered with and
@@ -86,11 +86,13 @@ cryptography.
         session key is secure. This means that if someone finds out the symmetric
         key, only the content of one message is deciphered. 
 
-7. In the lab you validated the keys by asking the owners verbally for the fingerprint.
+7. In the lab you validated the keys by asking the owners verbally for the 
+fingerprint.
 Explain how the trust system (web of trust) in GnuPG works and how you validate
 a key belonging to a person you do not know personally. Your answer must
 distinguish between (owner) trust and (key) validity (sometimes called validity
-trust). You should also include the conditions for when you start to consider keys
+trust). You should also include the conditions for when you start to consider
+keys
 from foreigners valid.
 
     If you as a user trust that someone's public key is valid, you can sign it
@@ -114,13 +116,12 @@ from foreigners valid.
 
 
 8. Consider the example shown in the Figure 3 below. Assume you have (at least)
-five keys on your key ring. You have personally signed the keys of Alice, Blake and
-Chloe. They, in turn, have signed the key of Dharma. Finally, Dharma has signed
-the key of Elena. From the figure, you can see the current owner trust as well as
-the key validity (calculated trust value). To be succinct, we have marked these
-entries as -/-, 
-
-where the left entry stands for owner trust and the right entry key validity.
+five keys on your key ring. You have personally signed the keys of Alice, 
+Blake and Chloe. They, in turn, have signed the key of Dharma. Finally, Dharma 
+has signed the key of Elena. From the figure, you can see the current owner 
+trust as well as the key validity (calculated trust value). To be succinct, we 
+have marked these entries as -/-, where the left entry stands for owner trust 
+and the right entry key validity.
 
             m/f
       _---> Alice -\
@@ -145,20 +146,24 @@ You have not entered any owner trust for either Dharma or Elena, hence the
 - in the figure (may be marked as unknown in gpg).
 
     (a) You know Dharma, and you now enter that you trust her fully. If you 
-    list the key for Dharma, it would now show: f/m 
-    (trust: full, validity: marginal).
+        list the key for Dharma, it would now show: f/m 
+        (trust: full, validity: marginal).
     
-    What would be listed for Elena?
-        Elena trust: q, validity: q
+        What would be listed for Elena?
+            Elena trust: q, validity: q
 
-    (b) Time passes, and you realize that Chloe is actually somewhat trustworthy. For that reason, you change the owner trust of Chloe to marginal (Chloe: m/f).  What would now be listed for Elena? We assume the changes done in (a) are still in effect.
-        Elena trust: q, validity: f
+    (b) Time passes, and you realize that Chloe is actually somewhat trustworthy.
+        For that reason, you change the owner trust of Chloe to marginal 
+        (Chloe: m/f). What would now be listed for Elena? We assume the changes
+        done in (a) are still in effect.
+            Elena trust: q, validity: f
 
 9. What is your public key (in ASCII-format)? Use the menu option Attach My
 Public Key in Enigmail/OpenPGP to include your key with the email.
 You can also manually insert the key into the email. First, you need to export
 a fresh copy of the key (with the armor option) to a file. Second, include the
-contents of this file into the email. Make sure that there is a blank line between your answers above and the start of the preamble of the key block:
+contents of this file into the email. Make sure that there is a blank line 
+between your answers above and the start of the preamble of the key block:
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v2.0.14 (GNU/Linux)
