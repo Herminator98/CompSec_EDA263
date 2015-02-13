@@ -24,11 +24,19 @@ hash function used?
     assure the recipient that the message is not tampered with and originated
     from the right person.
 
-    In PGP, to sign a message the sending person uses a one-way hashing
-    function on the plaintext message to generate output of a predetermined
-    length, called a message digest. This digest is then used together with the
-    senders private key to produce the signature. The message and signature are
-    then sent, and the recipient can verify the message's digest.
+    1.  In PGP, to sign a message the sending person uses a one-way hashing
+        function on the plaintext message to generate output of a predetermined
+        length, called a message digest.
+    2.  This digest is then used together with the senders private key to
+        produce the signature. By doing this, the digest's integrity is
+        protected by the sender's signature, and it assures that it has not
+        been tampered with.
+    3.  The message and signature are then sent, and the recipient can verify
+        the message's digest.
+    4.  The recipient verifies the message's integrity by using PGP to
+        calculate a digest of the received message and compares it to the
+        signed digest provided by the sender. The integrity of the signed
+        digest is verified by decrypting it using the sender's public key.
 
     By using encryption to digitally sign messages, there would be significant
     overhead in data usage, at least twice as much as the original, and this is
