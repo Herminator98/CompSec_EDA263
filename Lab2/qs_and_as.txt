@@ -20,29 +20,31 @@
 Availability)? Motivate your answer. Explain how signing works in PGP? Why is a
 hash function used?
 
-    Integrity. A digital signature provides authenticity to a message, to
-    assure the recipient that the message is not tampered with and originated
-    from the right person.
+    (A) Integrity. A digital signature provides authenticity to a message,
+        to assure the recipient that the message is not tampered with and
+        originated from the right person.
 
-    1.  In PGP, to sign a message the sending person uses a one-way hashing
-        function on the plaintext message to generate output of a predetermined
-        length, called a message digest.
-    2.  This digest is then used together with the senders private key to
-        produce the signature. By doing this, the digest's integrity is
-        protected by the sender's signature, and it assures that it has not
-        been tampered with.
-    3.  The message and signature are then sent, and the recipient can verify
-        the message's digest.
-    4.  The recipient verifies the message's integrity by using PGP to
-        calculate a digest of the received message and compares it to the
-        signed digest provided by the sender. The integrity of the signed
-        digest is verified by decrypting it using the sender's public key.
+    (B) The steps of signing in PGP:
 
-    By using encryption to digitally sign messages, there would be significant
-    overhead in data usage, at least twice as much as the original, and this is
-    countered by using the fixed-length hashing function. The hashing function
-    used is strong in the sense that if the data is manipulated, the output of
-    the hash is different.
+        (1) In PGP, to sign a message the sending person uses a one-way hashing
+            function on the plaintext message to generate output of a
+            predetermined length, called a message digest.
+        (2) This digest is then used together with the senders private key to
+            produce the signature. By doing this, the digest's integrity is
+            protected by the sender's signature, and it assures that it has not
+            been tampered with.
+        (3) The message and signature are then sent, and the recipient can
+            verify the message's digest.
+        (4) The recipient verifies the message's integrity by using PGP to
+            calculate a digest of the received message and compares it to the
+            signed digest provided by the sender. The integrity of the signed
+            digest is verified by decrypting it using the sender's public key.
+
+    (C) By using encryption to digitally sign messages, there would be
+        significant overhead in data usage, at least twice as much as
+        the original, and this is countered by using the fixed-length hashing
+        function. The hashing function used is strong in the sense that if
+        the data is manipulated, the output of the hash is different.
 
 6. What is the purpose of encryption in terms of the "CIA"? Motivate your answer.
 Explain how encryption and decryption works in PGP? Make sure that your answer
@@ -58,6 +60,24 @@ distinguish between (owner) trust and (key) validity (sometimes called validity
 trust). You should also include the conditions for when you start to consider keys
 from foreigners valid.
 
+    If you as a user trust that someone's public key is valid, you can sign it
+    in GPG. When it is a key of someone you know, the validation of the key's
+    fingerprint is trivial. The problem is when you need to validate the keys
+    of people you do not know. To be able to do that, you can make use of that
+    people in your keyring may have signed someone else's key. GPG lets you
+    assign a trust a value on anyone in your key ring, and depending on what
+    values you have assigned to different people's keys, GPG can decide if a
+    keys from strangers are valid.
+
+    By default, GPG consider keys valid if it has:
+        - your own signature
+        - the signature of one person you have assigned "fully trusted"
+        - the signatures of three people you have assigned "marginally trusted"
+        
+    Furthermore, the number of steps leading from the key to be validated to
+    your own, need to be at most five. Again, the number of steps and how many
+    signatures are needed is the default setting, and it can be changed if need
+    be.
 
 
 8. Consider the example shown in the Figure 3 below. Assume you have (at least)
