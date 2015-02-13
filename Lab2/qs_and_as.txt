@@ -90,14 +90,15 @@ five keys on your key ring. You have personally signed the keys of Alice, Blake 
 Chloe. They, in turn, have signed the key of Dharma. Finally, Dharma has signed
 the key of Elena. From the figure, you can see the current owner trust as well as
 the key validity (calculated trust value). To be succinct, we have marked these
-entries as -/-, where the left entry stands for owner trust and the right entry key
-validity.
+entries as -/-, 
+
+where the left entry stands for owner trust and the right entry key validity.
 
             m/f
       _---> Alice -\
      /              \
     /       m/f      \> -/m             -/-
-You ------> Blake ----> Dharma  --->    Elena
+You ------> Blake ----> Dahrma  --->    Elena
     \                 ->
      \      q/f      /
       ----> Chloe  -/
@@ -107,42 +108,29 @@ Figure 3: Example of a web of trust. 'A -> B' indicates that A has signed B's ke
 For example, consider Alice. As you have personally signed her key, it is fully
 trusted (i.e. you know that the person Alice owns this key). Furthermore, you
 also know that Alice is quite messy and has a history of signing other people's
-keys without the proper validation. For that reason, you have assigned the owner
-trust of Alice to marginal. The same goes for Blake. However, Chloe is a new
-acquaintance and you do not know whether she is careful when validating keys.
-Hence, you put "Don't know" (q) for owner trust of Chloe. Depending on your
-version of GPG, this may be listed as trust: undefined, validity: full. You have not
-entered any owner trust for either Dharma or Elena, hence the - in the figure (may
-be marked as unknown in gpg).
+keys without the proper validation. For that reason, you have assigned the 
+owner trust of Alice to marginal. The same goes for Blake. However, Chloe is a
+new acquaintance and you do not know whether she is careful when validating 
+keys. Hence, you put "Don't know" (q) for owner trust of Chloe. Depending on 
+your version of GPG, this may be listed as trust: undefined, validity: full. 
+You have not entered any owner trust for either Dharma or Elena, hence the 
+- in the figure (may be marked as unknown in gpg).
 
-    (a) You know Dharma, and you now enter that you trust her fully. If you list
-    the key for Dharma, it would now show: f/m (trust: full, validity: marginal).
-    What would be listed for Elena? Answer using the form: Elena trust: x,
-    validity: x
+    (a) You know Dharma, and you now enter that you trust her fully. If you 
+    list the key for Dharma, it would now show: f/m 
+    (trust: full, validity: marginal).
+    
+    What would be listed for Elena?
+        Elena trust: q, validity: q
 
-    (b) Time passes, and you realize that Chloe is actually somewhat trustworthy.
-    For that reason, you change the owner trust of Chloe to marginal (Chloe:
-    m/f). What would now be listed for Elena? We assume the changes done in
-    (a) are still in effect.
-
-Hint 1: If you are uncertain of the answer, you can download the file from the
-Documents directory in PingPong (lab2.keys). Import all the keys in this file, sign
-Alice, Blake, Chloe and set the proper owner trust levels. Then you can just print
-the values for Elena.
-
-Hint 2: In the offprint-collection for the course, there are two papers describing
-cryptography: An introduction to cryptography and The GNU Privacy Handbook.
-
-The two papers give different information regarding the number of marginally
-trusted keys that need to sign a key to make it valid. For Q8, lab2 you should use
-the information provided in The GNU privacy handbook.
+    (b) Time passes, and you realize that Chloe is actually somewhat trustworthy. For that reason, you change the owner trust of Chloe to marginal (Chloe: m/f).  What would now be listed for Elena? We assume the changes done in (a) are still in effect.
+        Elena trust: q, validity: f
 
 9. What is your public key (in ASCII-format)? Use the menu option Attach My
 Public Key in Enigmail/OpenPGP to include your key with the email.
 You can also manually insert the key into the email. First, you need to export
 a fresh copy of the key (with the armor option) to a file. Second, include the
-contents of this file into the email. Make sure that there is a blank line between
-your answers above and the start of the preamble of the key block:
+contents of this file into the email. Make sure that there is a blank line between your answers above and the start of the preamble of the key block:
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v2.0.14 (GNU/Linux)
@@ -168,48 +156,28 @@ w7RUT3NrYXIgQWtlcmdyZW4gKEdyb3VwIDEpIChVc2VkIGZvciB0aGUgY291cnNl
 IEVEQTMyMikgPGFrZXJncmVuQHN0dWRlbnQuY2hhbG1lcnMuc2U+iIAEExEIACgF
 AlTbTc0CGwMFCQB2pwAGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHScpGzS
 FoMfDjcA/RZ9Ea3dS15Wha5hH6t9qT7c9HLx5FbBcV4+yC0wIHLaAP0Z1AqNjg8C
-YImE54ax2qNtVgESjaCT2KkLD5BhFK/48LRKUGFyIFN2ZWRiZXJnIChHcm91cCAx
-KSAoZm9yIHRoZSBjb3Vyc2UgRURBMjYzKSA8c3ZwYXJAc3R1ZGVudC5jaGFsbWVy
-cy5zZT6IgAQTEQgAKAUCVNtTJAIbAwUJAHanAAYLCQgHAwIGFQgCCQoLBBYCAwEC
-HgECF4AACgkQdJykbNIWgx89qgD/ScQiUaYGym18HVO3YL1rmabmyGHQwY2SmMJ6
-AVR57l0A/R1tEHu1RG0yXhTT0AAJZ2ThYbF2buKaio4Gje0Drh8ouQINBFTbTc0Q
-CACH3K3M4QjNPxBgwjvbqcNDANxTHDkkBZxZg4oxQmKKB3ed61gmDs0bYYjLBF8H
-dB9sH66weoQiULmqiOtzwRyQSrr1xYFbOZa6Fk6M94NT9YmyiKzy+KRVcI9dd59l
-aNmePKVHfv7tjimatbf37vlCSLT2qoe7gN5y08WStcCUPQWFDX2KfcyL87RMOmi4
-F52CGt+M7FPLrvcmctiShC673fjHVMuyBm+Pht2zcIrMjCFrNszm2R7oCvIOKIiN
-03SRwh56W+8wjq0fhgcu/JzyYazyYuDGDMXbHSMIjquV8ZHxGe8IRdfqnTHSuSqK
-AEO6gU/BSZDJdforkDkRUCZTAAMFB/wOr58P90myAMdavgVU6/OcKvA5GHpyu6i/
-e/QQjiAptl4bUf3ifO0LBKJx8us16xAvqOjpmMuGoQhFQeVVUV9OXP5BgzEdUrsi
-DT2OYJBsMsnnn36+4Z82PYkNQCuMRF3oMZAQ+TvRO5Q0P/1r27KwGBYFAkGyAAgK
-qbJfYwLwLs5XpRpEI6BWwtscrBy2KJUtAIvqAE6L3jm8uc2xlSTpaNrbluArZ4Dj
-iFR9WVYktlLvt9nibOmCvKYHXQzSXYXn5ZhJLrR6nvtJOGHyT/umigxbNMtF5HI/
-mzWbPgpFXw9/3gSq1s7Qlf53lhUUZUi9O1LrJULfOda5+6uickpmiGcEGBEIAA8F
-AlTbTc0CGwwFCQB2pwAACgkQdJykbNIWgx9x7gEAgjgdv8BjGZVi/Gyxy86oPwqT
-TRBpNcmBUXLcfwPHJMsA/jiFciGBkqijxvjleWlZQm4tNSD8vbuMpb5ABTxOQqFe
-=QPPU
+YImE54ax2qNtVgESjaCT2KkLD5BhFK/48IkBHAQQAQIABgUCVNtioQAKCRA1JULi
+vWvuk7a4B/0WrF3rub1zs1Amr+gDRYUS1bgZEbYJ4vmdDN6bvpwn0T4jc8bEtTai
+ZJz1tjGnz8CNi5th+nocZ7yVytpYV7cMeWwgeeASybcHGDj5sIPvFVwOybqzzQK5
+JchGFt+BodpM0FqhODlsbCX6BA1Yv6foYSIc/ky8zDlDo/3OHDj4c3rc6DEmS6M1
+9KyuNjtPy/AyvYGY/RUwRoymwrPabHlLR809e6vsZplNJurY++se1q7XwcKLj9Rb
+Q6wzfbnakcV9UgSpCZ052fHPWIfQ+g1KbycXUdWEYQp17BUnacd0nBT2aZkmvmnJ
+KHH4SDcuXPZGo3bcNGSQhABQ7av54Nn8iF4EEBEIAAYFAlTbaFoACgkQWzWEw/wg
+4R0bowD/XsHJjZmfhpXkD31ZwXctuaNCdT87pw58wpHGx97sP7YA/ilTZq4kP4Qw
+cj8YTPhz5P1urWJaHMGi4vWsr+OfYFHktEpQYXIgU3ZlZGJlcmcgKEdyb3VwIDEp
+IChmb3IgdGhlIGNvdXJzZSBFREEyNjMpIDxzdnBhckBzdHVkZW50LmNoYWxtZXJz
+LnNlPoiABBMRCAAoBQJU21MkAhsDBQkAdqcABgsJCAcDAgYVCAIJCgsEFgIDAQIe
+AQIXgAAKCRB0nKRs0haDHz2qAP9JxCJRpgbKbXwdU7dgvWuZpubIYdDBjZKYwnoB
+VHnuXQD9HW0Qe7VEbTJeFNPQAAlnZOFhsXZu4pqKjgaN7QOuHyiJARwEEAECAAYF
+AlTbYp4ACgkQNSVC4r1r7pP1CwgAjmCzEb7bxRCf4wvLDL1LquK//JUOYlDhaDAB
+PeRvuSiz5jONdT2nBgWz6CWq0bVFnyCIQZ0oL5CvLOG5859gpXj2H+DUU3Lf3WwU
+TDuqnLJrc737Y0pjTkTARkqiBXUVY9LO2jBehPhP4sol7lGYBAGLPzZDS2VdOftf
+fmAZK2Ds8JWZasbRYkrx5Dqmyl9U+czf9jOo65rXpFTRDODyjFDeB2MnpykLu1UZ
+dJdGlJ8bXn4EzINneb6YBi/Y4bVe9CKZiyGQKXA91sNz0llXsyhF9JuyZbhWwmCK
+s6QbjV+FP9S7JYzmHfsxDbHUS++zBeaDNRwPaQnSA75KY41FDoheBBARCAAGBQJU
+22hYAAoJEFs1hMP8IOEd0bkA/RdM+KkVrq3NPjJYEseHP0j6JzGFrGQMWx6JQZpV
+dhSaAQC53dKpPAZj89ohn1XSL4G4nmjmcReRMvGd9jBEZZa/ZrkCDQRU203NEAgA
+h9ytzOEIzT8QYMI726nDQwDcUxw5JAWcWYOKMUJiigd3netYJg7NG2GIywRfB3Qf
+bB+usHqEIlC5qojrc8EckEq69cWBWzmWuhZOjPeDU/WJsois8vikVXCPXXefZWjZ
 -----END PGP PUBLIC KEY BLOCK-----
 
-5.6.4 Some additional hints for the Lab 2 report
-Remember that your answer MUST be in your own words. You cannot copy text from
-public sources, but you need to write the report in your own words and cite the public
-sources you use to collect information.
-
-Q5: Note that this question has 3(!) parts:
-(A) CIA: You should give your answer + a motivation.
-(B) How does signing work in PGP: Give a step-by-step list (1) ... (2) ... (3)... Also
-explain how the signature is checked by the recipient.
-(C) Why is a hash used: explain why a hash is used. For (C): Note that the hash is
-not used to ensure that the data has not been tampered with. The hash algorithms are
-public, so anyone can create a hash of a text. From your answer in (B), you should have
-one separate step for the hash (and this is different from the step describing the method
-that ensures that nobody can tamper with the message content). Thus, for (C) you need
-to specify WHY hashing is one step of your answer in (B).
-
-Q6: Note that this quest has 3(!) parts:
-(A) CIA: You should give your answer + a motivation.
-(B) Explain the steps of encryption / decryption: Give a step-by-step list, (1) ... (2) ...
-(3) ... Ensure that you also explain the decryption process and what key is used for each
-step.
-(C) From your answer in (B), you should realize HOW PGP combines the best features
-of both conventional and public key cryptos. List the reason the conventional crypto is
-used, and then list the reason the public key crypto is used.
