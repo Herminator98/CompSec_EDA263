@@ -13,19 +13,34 @@
     Mozilla Thunderbird
 
 4. Will you use gpg in the future? Please specify your reasons.
-    
+
+    [REASONS]
 
 5. What is the purpose of signing in terms of the "CIA" (Confidentiality, Integrity,
 Availability)? Motivate your answer. Explain how signing works in PGP? Why is a
 hash function used?
-    
-    Integrity.
+
+    Integrity. A digital signature provides authenticity to a message, to
+    assure the recipient that the message is not tampered with and originated
+    from the right person.
+
+    In PGP, to sign a message the sending person uses a one-way hashing
+    function on the plaintext message to generate output of a predetermined
+    length, called a message digest. This digest is then used together with the
+    senders private key to produce the signature. The message and signature are
+    then sent, and the recipient can verify the message's digest.
+
+    By using encryption to digitally sign messages, there would be significant
+    overhead in data usage, at least twice as much as the original, and this is
+    countered by using the fixed-length hashing function. The hashing function
+    used is strong in the sense that if the data is manipulated, the output of
+    the hash is different.
 
 6. What is the purpose of encryption in terms of the "CIA"? Motivate your answer.
 Explain how encryption and decryption works in PGP? Make sure that your answer
 includes how PGP combines the best features of both conventional and public key
 cryptography.
-    
+
     Confidentiality.
 
 7. In the lab you validated the keys by asking the owners verbally for the fingerprint.
@@ -34,6 +49,8 @@ a key belonging to a person you do not know personally. Your answer must
 distinguish between (owner) trust and (key) validity (sometimes called validity
 trust). You should also include the conditions for when you start to consider keys
 from foreigners valid.
+
+
 
 8. Consider the example shown in the Figure 3 below. Assume you have (at least)
 five keys on your key ring. You have personally signed the keys of Alice, Blake and
