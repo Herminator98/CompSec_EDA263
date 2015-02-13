@@ -2,11 +2,11 @@
     
     Lab group 1
         Pär Svedberg    8211127652
-        Oskar Åkergren  [CIVIC NUMBER]
+        Oskar Åkergren  8805087114
 
 2. What is the fingerprint of your key?
     
-    [KEY FPR]
+    8986 B8A5 ACEC CACE 1FAF  03C0 749C A46C D216 831F
 
 3. What mail client did you use for the lab?
     
@@ -14,7 +14,8 @@
 
 4. Will you use gpg in the future? Please specify your reasons.
 
-    [REASONS]
+    For special use, secret company information or other sensitive information
+    in text form. 
 
 5. What is the purpose of signing in terms of the "CIA" (Confidentiality, Integrity,
 Availability)? Motivate your answer. Explain how signing works in PGP? Why is a
@@ -49,7 +50,39 @@ Explain how encryption and decryption works in PGP? Make sure that your answer
 includes how PGP combines the best features of both conventional and public key
 cryptography.
 
-    Confidentiality.
+    (A) CIA: confidentiality. The main reason to encrypt a message is to make 
+        sure no on else but the sender and receiver can work out the content of 
+        the message, if a third party get hold of it.
+
+    (B) When you are using PGP to encrypt a message these steps are being taken:
+        
+        Encrypting:
+        (1) Generating a symmetric key to encrypt the message, aka "session key".
+        (2) Encrypt the message with the session key.
+        (2) Fetching the public key of the recipient.
+        (3) Encrypt the session key, with the fetched public key.
+        (4) Send the now encrypted message and the encrypted session key.
+
+        Decrypting:
+        (1) Decrypt the session key with private key of the asymmetric pair.
+        (2) Decrypt the message with the decrypted session key.
+
+    (C) The reason the conventional crypto is being used is that 
+        "[m]any symmetric ciphers are stronger from a security standpoint" 
+        according to https://www.gnupg.org/gph/en/manual.html#AEN210 .
+        This means that the symmetric encryption is the stronger alternative, 
+        to secure the content of the message.
+
+        The reason of that the public key crypto is used is because of the ease
+        of sharing the keys. A long symmetric key can be troublesome to share
+        and if it get lost, someone else might decrypt the message. If you 
+        change the symmetric key often, the more sharing will be needed and greater risk of losing the key. 
+
+        By using the hybrid encryption system, the symmetric key is changed for 
+        every message, so the encryption is as secure as possible and the session
+        key is encrypted by the asymmetric system so that the sharing of the 
+        session key is secure. This means that if someone finds out the symmetric
+        key, only the content of one message is deciphered. 
 
 7. In the lab you validated the keys by asking the owners verbally for the fingerprint.
 Explain how the trust system (web of trust) in GnuPG works and how you validate
@@ -118,7 +151,51 @@ You can also manually insert the key into the email. First, you need to export
 a fresh copy of the key (with the armor option) to a file. Second, include the
 contents of this file into the email. Make sure that there is a blank line between
 your answers above and the start of the preamble of the key block:
+
 -----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2.0.14 (GNU/Linux)
+
+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
+=QPPU
+-----END PGP PUBLIC KEY BLOCK-----
 
 5.6.4 Some additional hints for the Lab 2 report
 Remember that your answer MUST be in your own words. You cannot copy text from
