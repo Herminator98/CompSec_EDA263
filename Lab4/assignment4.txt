@@ -1,0 +1,43 @@
+Assignment 1 
+	
+	(1) usr' OR 1=1 -- 
+	
+	(2) The problem on the site is that it does not sanitize user input. 
+
+	(3) The ' char ends the user input string and then gives an OR statement 
+	that always will be true and comment out the rest of the sql code.
+	This means that the logical check of the username 'usr' will always
+	return true.
+
+Assignment 2
+	On line 25 the debugging information explicitly states how the sql check
+	will be done, so an attacker will be able to figure out how to attack this
+	sequence.
+
+Assignment 3
+	(1) Yes.
+	
+	(2) usr' INSERT INTO Table_Users (Username, Password) VALUES ('usr', 'aa') --
+	Creates a new user 'usr' with the password 'aa'
+
+Assignment 4
+	(1) It uses the entered strings directly without any checks of them.
+	
+	(2) By adding the string to a variable and using that variable as a value
+	it will check the whole string as a username or password and ignore the 
+	' -char
+
+Assignment 5
+	(1)
+	(2)
+	(3)
+	(4) The authentication cookie printed. In the Feedback.aspx.cs-file the 
+	user input is not sanitized, and instead is used directly. 
+	
+	(5) The authentication cookie created in webbrowser A is used to access the 
+	user page without the need to do a login. The login procedure is bypassed. 
+	(6)
+	(7) We got access to the file-system through a CLI
+
+	(8) Always sanitize user input, make sure that the files that are uploaded are
+	non executable inside the webinterface.
