@@ -1,0 +1,83 @@
+\section{Results}
+
+As shown in Table \ref{tab:open_ports}, there are a number of open ports that belongs to relatively well known services. There is no imminent threat on these ports, although some services might be old and unused, it depends on what services on the host that are actually in use. \\
+
+\noindent The services detected are presented in Table \ref{tab:service_fingerprint}, even though there are very few of them.
+
+
+\subsection{Port Scanning}
+
+When performing a port scan on the system, the ports found to be open are listed in Table \ref{tab:open_ports}. If the server is not part of a Microsoft Windows network, it should be considered to close the Windows related services and ports. Nothing abnormal was found. 
+
+\begin{table}[htb]
+ \centering
+ \caption{Information about open ports} \label{tab:open_ports}
+ \begin{tabular}{m{3cm}m{3cm}p{5cm}p{2cm}} \toprule
+     \textbf{Port Number} & \textbf{Service Name} & 
+     \textbf{Service Task} &  \textbf{Suggestion} \\ \midrule
+        53      &   DNS         &   Domain Name System  &   Keep    \\
+        80/8080 &   HTTP        &   Web traffic         &   Keep    \\
+        143/993 &   IMAP/ \newline IMAPS  &   Email retrieval     &   Keep    \\
+        445     &   Microsoft-DS & Microsoft network services \footnotemark[1] &   Keep\footnotemark[2]  \\ 
+        139     &   NetBIOS Session Service &  Used by Microsoft-DS & Keep\footnotemark[2] \\
+        110/995 &   POP3/ \newline POP3S  &   Email retrieval     &   Keep \\
+        22      &   SSH  &   Secure data communication &   Keep \\
+\bottomrule
+ \end{tabular} 
+\end{table}
+\footnotetext[1]{Includes 'Active Directory: authentication and authorization' and 'SMB: File and printer sharing'}
+\footnotetext[2]{Keep if the network rely on MS services related to this server}
+
+\newpage
+
+\subsection{Fingerprinting}
+
+
+\subsubsection{Services}
+\label{ssub:services_result}
+As seen in Table \ref{tab:service_fingerprint}, one service was identified from the service fingerprinting scan, a Domain Name System (DNS) server called bind with the version number 9.7.0-p1. This version was released in 2010 and is outdated. \\
+
+\noindent However, when performing the vulnerability scan, the fingerprints of the services listed in Table \ref{tab:vul_fingerprint} were found. \\
+
+\noindent Of interest here is that all the listed services are old and outdated. Apache Tomcat 6.0.24 is a java servlet/web server that was released in 2010. Being published in 2009, the installed version of Apache HTTP web server is one year older than its java counterpart. The SMB server, Samba, is used for Linux/UNIX program interoperability with Windows and the current version dates back to 2010. Also OpenSSH, used for secure connections between computers, is of a version from 2010. All of the aforementioned services have multiple known security vulnerabilities.
+
+\begin{table}[htb]
+ \centering
+ \caption{Service fingerprint} \label{tab:service_fingerprint}
+ \begin{tabular}{m{4cm}p{3cm}} \toprule
+ \textbf{Service} & \textbf{Version} \\ \midrule
+ DNS server & bind 9.7.0-p1 \\ \bottomrule
+ \end{tabular} 
+\end{table}
+
+\begin{table}[htb]
+ \centering
+ \caption{Vulnerability scan fingerprint} \label{tab:vul_fingerprint}
+ \begin{tabular}{m{4cm}p{3cm}} \toprule
+ \textbf{Service} & \textbf{Version} \\ \midrule
+    Java servlet web server    &   Apache \newline Tomcat 6.0.24 \\
+    HTTP \newline web server            &   Apache 2.2.14 \\
+    mail server                 &   Dovecot \\
+    SMB server               &   Samba 3.4.7 \\
+    OpenSSH             &   OpenSSH 5.3p1 \\
+ \\ \bottomrule
+ \end{tabular} 
+\end{table}
+
+
+\subsubsection{Remote Host}
+
+Analysing the information gained by the vulnerability scan, the system's operating system were confirmed to be of the Linux distribution Ubuntu. Combining this knowledge with the information provided in 3.2.1, it is also possible determine that the version of Ubuntu is of the 10.04 LTS \cite{ubuntu, newsletter}. It was also found that the system is part of a SMB/Windows workgroup with the name “WORKGROUP”.
+
+
+\subsection{Vulnerability Scan}
+
+As mentioned in \ref{ssub:services_result}, the vulnerability scan revealed the version of many of the system's services and that they are outdated. With outdated software it is common that there are publicly known vulnerabilities and weaknesses. OpenVAS classifies the threats found in the vulnerability scan by severity, high, medium and low. In the performed particular scan there were six high threats, ten medium threats and one low threat. \\
+
+\noindent In Apache Tomcat 6.0.24, the java servlet/web server, the vulnerability scan found two high risk and five medium risk vulnerabilities. These security risks include, but are not limited to, that potential attackers can gain access to sensitive data and cause denial-of-service. \\
+
+\noindent OpenSSL, in this case used for secure retrieval of email, were found to have two high risk and two medium risk vulnerabilities. The most critical vulnerability is the possibility of man-in-the-middle attacks; a session can be hijacked or compromised. \\
+
+\noindent Remaining security risks classified as medium threats were a denial-of-service vulnerability in the SMB server Samba, risk of information-disclosure by the OpenSSH server and one vulnerability related to giving away timestamps, which can potentially open the system for denial-of-service attacks. \\
+
+\noindent One threat were classified as low risk, the DNS server bind. The issues related to system's version of bind is mostly related to availability issues, as in cause the DNS server to crash or denial-of-service.

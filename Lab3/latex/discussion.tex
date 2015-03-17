@@ -1,0 +1,28 @@
+\section{Discussion} \label{sec:discussion}
+
+\noindent The first two scans, the ones carried out in section \ref{sub:port_set} and \ref{sub:finger_set}, yielded very little results, which is a good sign from a security perspective. The most basic entry points to the system is secure as shown in Table \ref{tab:open_ports}. This table displays that there were no uncommon ports in use, and those who were could be open for legitimate reasons. \\
+
+
+\noindent The only item that the fingerprint scan raised as an issue was an outdated DNS--server software, as seen in Table \ref{tab:service_fingerprint}, which in itself was not a great threat to the system. From this fingerprint scan we were not able to tell anything about the host operating system. \\
+
+\noindent The vulnerability scan reported, contrary to the other two scans, a number of issues that needs to be addressed. The primary reason for the issues are based on outdated software, so in order to improve the system's security, software updates need to be preformed. OpenVAS raised six (6) high security risks, and ten (10) medium risks and all of them were based on old software and need to be tended to. For specific applications that needs updates, see Table \ref{tab:recommendations}. \\
+
+\noindent Of the applications listed in Table \ref{tab:recommendations}, the highest priority are 'Tomcat' and 'OpenSSL' because they generate the threat level 'high' from OpenVAS. Dovecot does not generate any issues in OpenVAS, though it is known to have had security threats \cite{dovecot}, so an update is recommended if it is as outdated as the rest of the systems software.\\
+
+
+
+\begin{table}[htb]
+ \centering
+ \caption{Summary of vulnerability scan recommendations} 
+ \label{tab:recommendations}
+ \begin{tabular}{m{5cm}p{4cm}p{4cm}} \toprule
+ \textbf{Service Name} & \textbf{Problems} & \textbf{Suggestions} \\ \midrule
+    Dovecot                 &   Unknown version &  Check for update\\
+    Apache Tomcat 6.0.24    &   Outdated &  Software update\\
+    Apache 2.2.14           &   Outdated &  Software update\\
+    OpenSSL                 &   Outdated &  Software update\\
+    Samba 3.4.7             &   Outdated &  Software update\\
+    OpenSSH 5.3p1           &   Outdated &  Software update\\ \bottomrule
+ \end{tabular} 
+\end{table}
+
